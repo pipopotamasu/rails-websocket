@@ -1,4 +1,5 @@
-App.chat_message = App.cable.subscriptions.create "ChatMessageChannel",
+App = {}
+App.chat_message = ActionCable.createConsumer().subscriptions.create "ChatMessageChannel",
   connected: ->
     # Called when the subscription is ready for use on the server
 
