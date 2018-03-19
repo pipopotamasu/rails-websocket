@@ -1,1 +1,1 @@
-import '../cable.js'
+import '../channels/chat_message'
