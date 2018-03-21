@@ -5,5 +5,6 @@ class ChatMessagesController < ApplicationController
 
   def index_vue
     @chat_messages = ChatMessage.all
+    @messages = @chat_messages.map { |message| message.body }
   end
 end
