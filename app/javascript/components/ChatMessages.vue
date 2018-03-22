@@ -14,7 +14,6 @@
 
 <script>
 import ActionCable from '../../../vendor/bundle/ruby/2.4.0/gems/actioncable-5.1.5/lib/assets/compiled/action_cable'
-import $ from 'jquery'
 
 export default {
   data () {
@@ -35,21 +34,40 @@ export default {
     this.connection = ActionCable.createConsumer().subscriptions.create("ChatMessageChannel", {
       connected: function() {},
       disconnected: function() {},
-      received: function(data) {
-        vueInstance.messages.push(data['message'])
-      },
-      speak: function(message) {
-        return this.perform('speak', {
-          message: message
-        })
-      }
+      received: vueInstance.received(),
+      speak: vueInstance.speak()
     })
+    // Prev code
+    // this.connection = ActionCable.createConsumer().subscriptions.create("ChatMessageChannel", {
+    //   connected: function() {},
+    //   disconnected: function() {},
+    //   received: function(data) {
+    //     vueInstance.messages.push(data['message'])
+    //   },
+    //   speak: function(message) {
+    //     return this.perform('speak', {
+    //       message: message
+    //     })
+    //   }
+    // })
   },
   methods: {
     createMessage () {
       if (this.input_message == '') return false
       this.connection.speak(this.input_message)
       this.input_message = ''
+    },
+    speak () {
+      return message => {
+        return this.connection.perform('speak', {
+          message: message
+        })
+      }
+    },
+    received () {
+      return data => {
+        this.messages.push(data['message'])
+      }
     }
   }
 }
