@@ -34,21 +34,40 @@ export default {
     this.connection = ActionCable.createConsumer().subscriptions.create("ChatMessageChannel", {
       connected: function() {},
       disconnected: function() {},
-      received: function(data) {
-        vueInstance.messages.push(data['message'])
-      },
-      speak: function(message) {
-        return this.perform('speak', {
-          message: message
-        })
-      }
+      received: vueInstance.received(),
+      speak: vueInstance.speak()
     })
+    // Prev code
+    // this.connection = ActionCable.createConsumer().subscriptions.create("ChatMessageChannel", {
+    //   connected: function() {},
+    //   disconnected: function() {},
+    //   received: function(data) {
+    //     vueInstance.messages.push(data['message'])
+    //   },
+    //   speak: function(message) {
+    //     return this.perform('speak', {
+    //       message: message
+    //     })
+    //   }
+    // })
   },
   methods: {
     createMessage () {
       if (this.input_message == '') return false
       this.connection.speak(this.input_message)
       this.input_message = ''
+    },
+    speak () {
+      return message => {
+        return this.connection.perform('speak', {
+          message: message
+        })
+      }
+    },
+    received () {
+      return data => {
+        this.messages.push(data['message'])
+      }
     }
   }
 }
