@@ -6,8 +6,11 @@
     <br/>
     <form>
       <label>
-        発言する: <input type="text" data-behavior="speak_chat_messages" v-model="input_message" @keypress.enter.prevent="createMessage()">
+        send: <input type="text" data-behavior="speak_chat_messages" v-model="input_message" @keypress.enter.prevent="createMessage()">
       </label>
+      <div>
+        <button type="button" @click="unsubscribe">Disconnect</button>
+      </div>
     </form>
   </div>
 </template>
@@ -68,6 +71,10 @@ export default {
       return data => {
         this.messages.push(data['message'])
       }
+    },
+    unsubscribe () {
+      this.connection.unsubscribe()
+      alert('Disconnected!')
     }
   }
 }
