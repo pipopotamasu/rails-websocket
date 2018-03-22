@@ -1,4 +1,4 @@
-import ActionCable from 'action_cable'
+import ActionCable from 'actioncable'
 import $ from 'jquery'
 
 let App = {}

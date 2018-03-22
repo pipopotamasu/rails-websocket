@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import ActionCable from 'action_cable'
+import ActionCable from 'actioncable'
 
 export default {
   data () {
